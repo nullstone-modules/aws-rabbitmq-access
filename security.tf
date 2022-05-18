@@ -11,7 +11,7 @@ resource "aws_security_group_rule" "app-to-datastore" {
 
 resource "aws_security_group_rule" "datastore-from-app" {
   for_each = local.db_ports
-  
+
   security_group_id        = local.db_security_group_id
   type                     = "ingress"
   from_port                = each.value
