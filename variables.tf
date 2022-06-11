@@ -7,3 +7,7 @@ EOF
   type    = map(string)
   default = {}
 }
+
+locals {
+  security_group_id = var.app_metadata["security_group_id"]
+}

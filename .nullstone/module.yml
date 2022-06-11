@@ -2,12 +2,14 @@ org_name: nullstone
 name: aws-rabbitmq-access
 friendly_name: RabbitMQ Access
 description: Grants an application access to a RabbitMQ instance/cluster
-category: capability/datastores
-type: capability/rabbitmq-access/aws
-appCategories:
-    - app/container
-    - app/serverless
-layer: service
-is_public: true
+category: capability
+subcategory: datastores
 provider_types:
     - aws
+platform: rabbitmq
+subplatform: ""
+type: capability/rabbitmq-access/aws
+appCategories:
+    - container
+    - serverless
+is_public: true

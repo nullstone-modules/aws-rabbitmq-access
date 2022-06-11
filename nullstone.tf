@@ -8,20 +8,17 @@ terraform {
 
 data "ns_workspace" "this" {}
 
-locals {
-  tags       = data.ns_workspace.this.tags
-  block_name = data.ns_workspace.this.block_name
+// Generate a random suffix to ensure uniqueness of resources
+resource "random_string" "resource_suffix" {
+  length  = 5
+  lower   = true
+  upper   = false
+  numeric = false
+  special = false
 }
 
-data "ns_connection" "rabbitmq" {
-  name = "rabbitmq"
-  type = "rabbitmq/aws"
-}
-
 locals {
-  db_admin_secret_id   = data.ns_connection.rabbitmq.outputs.db_admin_secret_id
-  db_protocol          = data.ns_connection.rabbitmq.outputs.db_protocol
-  db_endpoints         = data.ns_connection.rabbitmq.outputs.db_endpoints
-  db_ports             = distinct([for url in local.db_endpoints : split(":", url)[1]])
-  db_security_group_id = data.ns_connection.rabbitmq.outputs.db_security_group_id
+  tags          = data.ns_workspace.this.tags
+  block_name    = data.ns_workspace.this.block_name
+  resource_name = "${data.ns_workspace.this.block_ref}-${random_string.resource_suffix.result}"
 }
